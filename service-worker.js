@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.0d20ccafe3b58e7ee18bd5d31e7a7613.js"
+  "/solidity-converter-online/precache-manifest.9c992e4175252c3825f691d83af4ceab.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "solidity-converter"});
