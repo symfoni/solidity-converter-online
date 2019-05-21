@@ -2,8 +2,8 @@
   <b-container class="home" fluid>
     <div>
       <b-card no-body>
-        <b-tabs pills card vertical>
-          <!-- BYTES32 TO STRING -->
+        <b-tabs pills card :vertical="!isMobile()">
+          <!-- STRING to BYTES32 -->
           <b-tab :title="options.stringToBytes32" active>
             <b-card-text>
               <b-row align-v="center">
@@ -23,7 +23,7 @@
                   <b-button
                     class="m-3"
                     variant="success"
-                    @click="saveRecord('bytes32', bytes32, 'string', string)"
+                    @click="saveRecord('string', string, 'bytes32', bytes32)"
                   >Save</b-button>
                 </b-col>
 
@@ -42,7 +42,7 @@
             </b-card-text>
           </b-tab>
 
-          <!-- STRING TO BYTES32 -->
+          <!-- Bytes32 to string-->
           <b-tab :title="options.bytes32ToString">
             <b-card-text>
               <b-row align-v="center">
@@ -62,7 +62,7 @@
                   <b-button
                     class="m-3"
                     variant="success"
-                    @click="saveRecord('string', string, 'bytes32', bytes32)"
+                    @click="saveRecord('bytes32', bytes32, 'string', string)"
                   >Save</b-button>
                 </b-col>
 
@@ -159,6 +159,10 @@ export default Vue.extend({
     this.loadRecordsToState();
   },
   methods: {
+    isMobile() {
+      if (window.innerWidth < 768) return true;
+      return false;
+    },
     makeToast(
       message: string,
       variant: string = "primary",
