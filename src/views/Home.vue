@@ -4,7 +4,7 @@
       <b-card no-body>
         <b-tabs pills card :vertical="!isMobile()">
           <!-- STRING to BYTES32 -->
-          <b-tab :title="options.stringToBytes32" active>
+          <b-tab title="String to Bytes32" active>
             <b-card-text>
               <b-row align-v="center">
                 <b-col md="5">
@@ -43,7 +43,7 @@
           </b-tab>
 
           <!-- Bytes32 to string-->
-          <b-tab :title="options.bytes32ToString">
+          <b-tab title="Bytes32 to String">
             <b-card-text>
               <b-row align-v="center">
                 <b-col md="5">
@@ -75,6 +75,82 @@
                     rows="6"
                     max-rows="6"
                     @input="setBytes32"
+                  ></b-form-textarea>
+                </b-col>
+              </b-row>
+            </b-card-text>
+          </b-tab>
+
+          <!-- String to keccak-->
+          <b-tab title="String(UTF-8) to Keccak256">
+            <b-card-text>
+              <b-row align-v="center">
+                <b-col md="5">
+                  <label class="float-left text-uppercase font-weight-bold">String</label>
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="string"
+                    placeholder="string..."
+                    rows="6"
+                    max-rows="6"
+                    @input="setKeccak256"
+                  ></b-form-textarea>
+                </b-col>
+
+                <b-col md="2">
+                  <b-button
+                    class="m-3"
+                    variant="success"
+                    @click="saveRecord('string', string, 'keccak256', keccak256)"
+                  >Save</b-button>
+                </b-col>
+
+                <b-col md="5">
+                  <label class="float-left text-uppercase font-weight-bold">Keccak256</label>
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="keccak256"
+                    placeholder="keccak256..."
+                    rows="6"
+                    max-rows="6"
+                  ></b-form-textarea>
+                </b-col>
+              </b-row>
+            </b-card-text>
+          </b-tab>
+
+          <!-- String to Namehash -->
+          <b-tab title="String to Namehash">
+            <b-card-text>
+              <b-row align-v="center">
+                <b-col md="5">
+                  <label class="float-left text-uppercase font-weight-bold">String</label>
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="string"
+                    placeholder="string..."
+                    rows="6"
+                    max-rows="6"
+                    @input="setNamehash"
+                  ></b-form-textarea>
+                </b-col>
+
+                <b-col md="2">
+                  <b-button
+                    class="m-3"
+                    variant="success"
+                    @click="saveRecord('string', string, 'namehash', namehash)"
+                  >Save</b-button>
+                </b-col>
+
+                <b-col md="5">
+                  <label class="float-left text-uppercase font-weight-bold">Namehash</label>
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="namehash"
+                    placeholder="namehash..."
+                    rows="6"
+                    max-rows="6"
                   ></b-form-textarea>
                 </b-col>
               </b-row>
@@ -134,6 +210,8 @@ export default Vue.extend({
       },
       string: "",
       bytes32: "",
+      keccak256: "",
+      namehash: "",
       savedRecords: [],
       fields: [
         {
@@ -185,6 +263,20 @@ export default Vue.extend({
     setString(event: string) {
       try {
         this.string = ethers.utils.parseBytes32String(event);
+      } catch (error) {
+        this.makeToast(error.message, "danger");
+      }
+    },
+    setKeccak256(event: string) {
+      try {
+        this.keccak256 = ethers.utils.id(event);
+      } catch (error) {
+        this.makeToast(error.message, "danger");
+      }
+    },
+    setNamehash(event: string) {
+      try {
+        this.namehash = ethers.utils.namehash(event);
       } catch (error) {
         this.makeToast(error.message, "danger");
       }
